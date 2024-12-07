@@ -18,8 +18,9 @@ Aqui temos o arquivo **docker-compose** que pode ser usado para executar a aplic
 
 1. Para rodar a aplicação faça a clonagem deste repositório com o comando:
 ```
-git clone https://github.com/YohansN/gocase-devops.git
+git clone --recurse-submodules https://github.com/YohansN/gocase-devops.git
 ```
+Necessário para baixar tanto o repositório principal quanto seus sub-módulos.
 
 2. Entre no diretório raiz do projeto e execute o comando:
 ```
