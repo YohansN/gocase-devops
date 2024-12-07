@@ -1,0 +1,45 @@
+version: '3.9'
+
+services:
+
+  frontend:
+    build:
+      context: ./devopscasefront
+    container_name: devopscasefront
+    ports:
+      - "80:80"
+    volumes:
+      - frontend_data:/usr/share/nginx/html
+
+  backend:
+    build:
+      context: ./devopscaseback
+    container_name: devopscaseback
+    ports:
+      - "3000:3000"
+    environment:
+      - RAILS_MASTER_KEY=c6f7f6ad50d2da14d823139bb79b978652a372831ee01afb9b49f1d8db3072aa
+      - DATABASE_HOST=gocasedb
+      - DATABASE_USERNAME=postgres
+      - DATABASE_PASSWORD=postgres
+    depends_on:
+      - database
+    volumes:
+      - backend_data:/app/tmp
+  
+  database:
+    image: postgres:13
+    container_name: devopsgocasedb
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  frontend_data:
+  backend_data:
+  postgres_data:
