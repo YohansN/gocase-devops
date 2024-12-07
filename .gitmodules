@@ -1,8 +1,8 @@
 [submodule "devopscaseback"]
 	path = devopscaseback
 	url = https://github.com/YohansN/devopscaseback.git
-	branch = main
+    branch = main
 [submodule "devopscasefront"]
 	path = devopscasefront
 	url = https://github.com/YohansN/devopscasefront.git
-	branch = main
+    branch = main
