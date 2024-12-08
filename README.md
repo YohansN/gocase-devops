@@ -2,7 +2,7 @@
 ## Sobre os repositórios
 Este repositório contém uma ligação para dois outros repositórios do desafio, um com a aplicação Front-end em React/Vite e outro com o Back-end Ruby on Rails com a API que é utilizada pelo front. No repositório atual você irá encontrar o arquivo docker-compose responsável por executar a aplicação por completo por meio da orquestração dos três serviços em containeres (front, back, banco de dados).
 
-Nos ademais repositórios encontram-se os arquivos *dockerfile* que conteinerizam cada uma das aplicações individualmente para gerar suas imagens. No caso do front também encontra-se a pipeline para seu deploy na Vercel na pasta *.github/workflows*. <br>
+Nos ademais repositórios encontram-se os arquivos *dockerfile* que conteinerizam cada uma das aplicações individualmente para gerar suas imagens. No caso do front, também encontra-se a pipeline para seu deploy na Vercel na pasta *.github/workflows*. <br>
 Vale lembrar que a aplicação do **front não irá funcionar como um todo** sem o back-end, que é o caso do deploy na Vercel. <br>
 **Atenção: Todas as alterações feitas a partir dos repositórios originais estão na Branch Main!**
 
@@ -11,7 +11,7 @@ A aplicação deployada na Vercel se encontra no domínio:
 [https://devopscasefront-two.vercel.app](https://devopscasefront-two.vercel.app)
 
 ## Como executar a aplicação em container localmente.
-Aqui temos o arquivo **docker-compose** que pode ser usado para executar a aplicação de forma ***[conteinreizada](https://aws.amazon.com/pt/what-is/containerization/)*** localmente. Para isso siga os passos abaixo:
+Aqui temos o arquivo **docker-compose** que pode ser usado para executar a aplicação de forma ***[conteinerizada](https://aws.amazon.com/pt/what-is/containerization/)*** localmente. Para isso siga os passos abaixo:
 
 **PRÉ-REQUISITOS**: <br>
 É necessário ter o ***[git](https://git-scm.com/book/pt-br/v2/Começando-Instalando-o-Git)***, o ***[docker](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-20-04-pt)*** e o ***[docker compose](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-ubuntu-20-04-pt)*** instalados na máquina.
@@ -48,12 +48,12 @@ Os três serviços são orquestrados por meio do Docker Compose que faz as conex
 Dentro do arquivo compose também são definidos as variáveis de ambiente que são essenciais para fazer a conexão do back-end ruby no banco de dados postgres e algumas configurações que variam a depender do serviço. Também é lá que é definido as portas lógicas onde os serviços irão ser executados e que estarão disponíveis para o acesso na nossa máquina. Por último foram definidos volumes, responsaveis por fazer a persistência dos dados dos serviços.
 
 ## Desenvolvimento da Pipeline CI/CD
-Por meio do GitHub Actions foi desenvolvido uma Pipeline para deploy do **Front-End** da aplicação na plataforma **[Vercel](https://vercel.com/home)** de forma totalmente gratuita e automátizada. Na pipeline são definidas regras de execução que dizem em que momento o código da pipeline deverá ser executado. Em projetos maiores é comum existirem diferentes pipelines para diferentes ambientes como testes, homologação e produção. Nesse caso apenas uma pipeline de produção foi criada e ela é executada quando um push é feito na branch principal main como requisitado. Foram configuradas chaves/tokens secretos que fazem a conexão entre o repositório do GitHub e o projeto na Vercel. <br>
+Por meio do GitHub Actions foi desenvolvido uma Pipeline para deploy do **Front-End** da aplicação na plataforma **[Vercel](https://vercel.com/home)** de forma totalmente gratuita e automátizada. Na pipeline são definidas regras de execução que dizem em que momento o código da pipeline deverá ser executado. Em projetos maiores é comum existirem diferentes pipelines para diferentes ambientes como testes, homologação e produção. Nesse caso apenas uma pipeline de produção foi criada e ela é executada quando um push é feito na branch principal main, como requisitado. Foram configuradas chaves/tokens secretos que fazem a conexão entre o repositório do GitHub e o projeto na Vercel. <br>
 A Pipeline é executada em uma máquina virtual Ubuntu. Lá ela faz o clone do repositório e executa os comandos para instalação do CLI da Vercel, build da aplicação e envio dos arquivos Artifacts para o deploy na plataforma. <br>
-Algumas etapas de verificação de código podem ser adicionadas para um maior controle do que deve ser deployado ou não.
+Algumas etapas de verificação de código podem ser adicionadas para um maior controle do que deve ser deployado ou não. Optei por não implementar uma etapa de testes uma vez que o projeto não disponibiliza os mesmos, fazendo com que a pipeline quebre.
 
 ## Escolhas técnicas
-No caso da aplicação Back-End em Ruby foi necessário gerar uma nova chave master.key durante a criação do container no docker-compose. **Isso não é uma boa prática visto que a chave secreta fica exposta**. No entanto para fins de testes acredito ser uma solução valida. No caso de uma aplicação real que seria deploiada/hospedada eu colocaria o valor dessa chave em uma variavel de ambiente do servidor e passaria durante a criação do container de forma dinâmica.
+No caso da aplicação Back-End em Ruby foi necessário gerar e passar por variável de ambiente (hard-coded) uma nova chave master.key durante a criação do container no docker-compose pois o arquivo com a chave original não foi disponibilizado. **Isso não é uma boa prática visto que a chave secreta fica exposta**. No entanto para fins de testes acredito ser uma solução valida. No caso de uma aplicação real que seria deploiada/hospedada eu colocaria o valor dessa chave em uma variavel de ambiente do servidor e passaria durante a criação do container de forma dinâmica.
 
 <br>
 
